@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sketchy Calc Pro</title>
+    <title>Faltulator by Musham</title>
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; touch-action: manipulation; }
         body { 
-            background: #fdf6e3; display: flex; justify-content: center; 
-            align-items: center; height: 100vh; width: 100vw; margin: 0;
+            background: #fdf6e3; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; height: 100vh; margin: 0;
             overflow: hidden; font-family: 'Gochi Hand', cursive;
         }
         .calculator {
             width: 90%; max-width: 340px; background: #fff; padding: 20px;
             border: 3px solid #333; border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-            box-shadow: 8px 8px 0px #333;
+            box-shadow: 8px 8px 0px #333; position: relative;
         }
         #display {
             width: 100%; height: 70px; background: #fff; border: 2px solid #333;
@@ -25,7 +26,7 @@
         }
         .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         button {
-            height: 60px; background: white; border: 2px solid #333;
+            height: 55px; background: white; border: 2px solid #333;
             border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
             font-family: 'Gochi Hand', cursive; font-size: 22px; cursor: pointer;
         }
@@ -33,6 +34,16 @@
         .operator { background: #fff9c4; }
         .clear { background: #ffcdd2; }
         .equal { background: #c8e6c9; grid-column: span 2; }
+        
+        .footer {
+            margin-top: 25px; display: flex; align-items: center; gap: 10px;
+            color: #333; font-size: 18px;
+        }
+        .insta-link {
+            color: #E1306C; font-size: 24px; text-decoration: none;
+            display: flex; align-items: center;
+        }
+
         @keyframes shake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
             20% { transform: translate(-3px, 0px) rotate(1deg); }
@@ -72,6 +83,13 @@
     </div>
 </div>
 
+<div class="footer">
+    <span>Made by Musham</span>
+    <a href="https://www.instagram.com/lilbuddha_.1?igsh=eGtlMHE5dnRzdHoy" target="_blank" class="insta-link">
+        <i class="fab fa-instagram"></i>
+    </a>
+</div>
+
 <script>
     const display = document.getElementById('display');
     const calcFrame = document.getElementById('calcFrame');
@@ -82,7 +100,6 @@
     let isPranked = false;
     let musicPlaying = false;
 
-    // Aapke naye funny messages
     const prankMessages = [
         "Kaha se ate hai ye log?",
         "Kyu nahi ho rahi padhai?",
@@ -91,12 +108,11 @@
 
     function action(val) {
         if (!musicPlaying) {
-            bgMusic.play().catch(e => console.log("Music wait"));
+            bgMusic.play().catch(e => console.log("Music play error"));
             bgMusic.volume = 0.4;
             musicPlaying = true;
         }
 
-        if (navigator.vibrate) navigator.vibrate(15);
         tapSound.currentTime = 0;
         tapSound.play();
 
@@ -112,11 +128,12 @@
     function showPrank() {
         if (display.value === "") return;
         
-        bgMusic.pause();
+        // Music pause line deleted - ab music chalta rahega!
+        prankSound.currentTime = 0;
         prankSound.play();
+        
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
-        // Random message select karna
         const randomMsg = prankMessages[Math.floor(Math.random() * prankMessages.length)];
         display.value = randomMsg;
         
